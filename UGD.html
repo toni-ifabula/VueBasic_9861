@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>Tebak Angka</h1>
+            <p>Tebak angka dari 1-10</p>
+
+            <input type="number" v-model="inputNumber" placeholder="Input Angka"/>
+            <button @click="guess" type="button" class="btn btn-primary">Tebak</button>
+
+            <p v-if="this.try == 0">KESEMPATAN HABIS</p>
+            <P v-else-if="this.inputNumber == this.randomNumber">TEBAKAN BENAR</P>
+            <P v-else-if="this.inputNumber != this.randomNumber">TEBAKAN SALAH</P>
+
+            <!-- <p v-show="this.try == 0">KESEMPATAN HABIS</p>
+            <P v-show="this.inputNumber == this.randomNumber">TEBAKAN BENAR</P>
+            <P v-show="this.inputNumber != this.randomNumber">TEBAKAN SALAH</P> -->
+
+            <p>
+                Antonius Wicaksana Nugraha | 180709861 | D
+            </p>
+        </div>
+
+    </div>    
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            inputNumber: null,
+            randomNumber: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+            try: 3,
+        },
+        methods: {
+            guess() {
+                this.try--;
+            },
+            output() {
+                if(this.try == 0) {
+                    return `KESEMPATAN HABIS`;
+                } else if(this.inputNumber == this.randomNumber) {
+                    return `TEBAKAN BENAR`;
+                } else if(this.inputNumber != this.randomNumber) {
+                    return `TEBAKAN SALAH`;
+                }
+            }
+        }
+    })
+</script>
+
+</html>
