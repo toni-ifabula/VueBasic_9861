@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="vue.js"></script>
+    <style>
+        .customBtn {
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm">
+                <h1>Todo List</h1>
+
+                <br>
+
+                <form action="">
+                    <div class="form-group">
+                        <label for="inputTask">Apa yang mau kamu kerjakan ?</label><br>
+                        <input type="text" v-model="formTodo.task"/>
+                    </div>
+                    <div class="for-group">
+                        <label for="inputPriority">Penting gak ?</label><br>
+                        <select  v-model="formTodo.priority">
+                            <option>Penting</option>
+                            <option>Biasa</option>
+                            <option>Tidak Penting</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNote">Ada catatan penting ?</label><br>
+                        <input type="text" v-model="formTodo.note"/>
+                    </div>
+    
+                    <button @click="resetForm" type="button" class="btn btn-secondary">Reset</button>
+                    <button @click="addTodo" type="button" class="btn btn-primary">Add</button>
+                </form>
+
+                <br>
+
+                <div align="center" v-show="todos.length > 0" v-for="(item, index) in todos" :key="index">
+                    <div v-if="item.priority === 'Penting'" class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                        <div class="card-header">
+                            {{item.priority}}
+                            <button class="customBtn" @click="deleteTodo(index)"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{item.task}}</h5>
+                            <p class="card-text">{{item.note}}</p>
+                        </div>
+                    </div>
+                    <div v-else-if="item.priority === 'Biasa'" class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header">
+                            {{item.priority}}
+                            <button class="customBtn" @click="deleteTodo(index)"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{item.task}}</h5>
+                            <p class="card-text">{{item.note}}</p>
+                        </div>
+                    </div>
+                    <div v-else-if="item.priority === 'Tidak Penting'" class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header">
+                            {{item.priority}}
+                            <button class="customBtn" @click="deleteTodo(index)"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{item.task}}</h5>
+                            <p class="card-text">{{item.note}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm"></div>
+        </div>
+
+        <!-- FOOTER -->
+        <p align="center">{{identitas.nama}} | {{identitas.npm}} | {{identitas.kelas}}</p>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                identitas: {
+                nama: "Antonius Wicaksana Nugraha",
+                npm: "180709861",
+                kelas: "D",
+                },
+                todos: [],
+                formTodo: {
+                    task: null,
+                    priority: null,
+                    note: null,
+                },
+            };
+        },
+        methods: {
+            addTodo() {
+                this.todos.push(this.formTodo);
+                this.resetForm();
+            },
+            deleteTodo(index) {
+                this.todos.splice(index, 1);
+            },
+            resetForm() {
+            this.formTodo = {
+                task: null,
+                priority: null,
+                note: null,
+            };
+        },
+        }
+    });
+</script>
+
+</html>

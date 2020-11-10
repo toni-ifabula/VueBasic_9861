@@ -10,25 +10,38 @@
 
 <body>
     <div id="app">
-        <div class="container">
+        <div align="center">
             <h1>Tebak Angka</h1>
             <p>Tebak angka dari 1-10</p>
 
-            <input type="number" v-model="inputNumber" placeholder="Input Angka"/>
-            <button @click="guess" type="button" class="btn btn-primary">Tebak</button>
+            <div v-show="main == 1">
+                <input type="number" v-model="inputNumber" placeholder="Input Angka"/>
+                <button @click="guess" type="button" class="btn btn-primary">Tebak</button>
+                <p>KESEMPATAN : {{ kesempatan }} KALI</p>
+            </div>
 
-            <p v-if="this.try == 0">KESEMPATAN HABIS</p>
-            <P v-else-if="this.inputNumber == this.randomNumber">TEBAKAN BENAR</P>
-            <P v-else-if="this.inputNumber != this.randomNumber">TEBAKAN SALAH</P>
+            <div v-show="main == 0">
+                <div v-show="this.kesempatan == 0 && this.inputNumber != this.randomNumber">
+                    <p>KESEMPATAN HABIS. ANDA KALAH</p>
+                    <button onClick="window.location.reload();" type="button" class="btn btn-danger">MAIN ULANG</button>
+                </div>
+                <div v-show="this.inputNumber == this.randomNumber">
+                    <p>TEBAKAN BENAR</p>
+                    <button onClick="window.location.reload();" type="button" class="btn btn-danger">MAIN ULANG</button>
+                </div>
+                <div v-show="this.inputNumber != this.randomNumber && this.kesempatan != 0">
+                    <p>TEBAKAN SALAH</p>
+                    <button @click="main = 1, inputNumber = null" type="button" class="btn btn-danger">TEBAK ULANG</button>
+                </div>
+            </div>
 
-            <!-- <p v-show="this.try == 0">KESEMPATAN HABIS</p>
-            <P v-show="this.inputNumber == this.randomNumber">TEBAKAN BENAR</P>
-            <P v-show="this.inputNumber != this.randomNumber">TEBAKAN SALAH</P> -->
-
-            <p>
-                Antonius Wicaksana Nugraha | 180709861 | D
-            </p>
+            <div style="position: fixed; left: 50; bottom: 0; width: 100%; text-align: center;">
+                <p>cheat : {{randomNumber}}</p>
+                <p>{{identitas.nama}} | {{identitas.npm}} | {{identitas.kelas}}</p>
+            </div>
         </div>
+
+        
 
     </div>    
 </body>
@@ -37,25 +50,23 @@
     new Vue({
         el: "#app",
         data: {
+            identitas: {
+                nama: "Antonius Wicaksana Nugraha",
+                npm: "180709861",
+                kelas: "D"
+            },
             inputNumber: null,
             randomNumber: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
-            try: 3,
+            kesempatan: 3,
+            main: 1,
         },
         methods: {
             guess() {
-                this.try--;
+                this.main = 0;
+                this.kesempatan--;
             },
-            output() {
-                if(this.try == 0) {
-                    return `KESEMPATAN HABIS`;
-                } else if(this.inputNumber == this.randomNumber) {
-                    return `TEBAKAN BENAR`;
-                } else if(this.inputNumber != this.randomNumber) {
-                    return `TEBAKAN SALAH`;
-                }
-            }
         }
-    })
+    });
 </script>
 
 </html>
